@@ -1,0 +1,28 @@
+*{
+    padding: 0%;
+    margin: 2%;
+}
+body{
+    background-color: ghostwhite;
+    color: black;
+}
+
+#BoasVindas{
+    text-align: justify;
+}
+p{
+    text-align: justify;
+}
+form{ 
+    display: flex;
+    padding: 3%;
+    background-color: lightgrey;
+}
+
+.Links{
+    text-align: left;
+}
+
+a{
+    color: blue;
+}
