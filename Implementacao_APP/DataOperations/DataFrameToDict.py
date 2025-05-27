@@ -8,7 +8,7 @@ def Transforma_Dataframe_em_Dicionario(categories ,  firstSemesterData , secondS
       secondSemester = secondSemesterData[categories].compute().to_dict(orient='records')
       
       #Print para que eu possa verificar no terminal se é o resultado esperado
-      print(firstSemester[0])
+      #print(firstSemester[0])
 
       return{
 

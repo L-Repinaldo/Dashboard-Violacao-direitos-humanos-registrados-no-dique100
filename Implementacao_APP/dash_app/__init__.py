@@ -16,7 +16,6 @@ def create_dash_aplication(flask_app):
         dash_app = dash.Dash( name = __name__ ,
                             use_pages = True,
                             server = flask_app,
-                            url_base_pathname = "/dash/",
                             external_stylesheets=external_stylesheets,
                             ) 
         
@@ -44,21 +43,24 @@ def create_dash_aplication(flask_app):
                         dbc.NavbarSimple(
                             children=[
                                 dbc.NavItem(dbc.NavLink("Gráficos em Barra",
-                                                         href="/dash/graph_bar",
+                                                         href="/graph_bar",
                                                          active="exact",
                                                          class_name="Navegação")),
 
                                 dbc.NavItem(dbc.NavLink("AI",
-                                                         href = "/dash/AI_page", 
+                                                         href = "/AI_page", 
                                                          active = "exact", 
                                                          class_name = "Navegação")),
                                 
                                 dbc.NavItem(dbc.NavLink("Tabela",
-                                                        href = "/dash/table_page",
+                                                        href = "/table_page",
                                                         active = "exact",
                                                         class_name = "Navegação")),
+
+                               html.A("Voltar ao Menu de Ano", href = "/"),
                             ],
-                            brand_href="/dash/",
+                            brand = "Página Inicial",
+                            brand_href="/initial_page",
                             color="primary",
                             dark=True,
                         ),
@@ -106,12 +108,9 @@ def load_year_data(year):
 
             year = int(flask.session.get('year')) #Adiquire o ano selecionado no app Flask
             yearData = rc.get_year_data(year)#Utiliza o ano para adquirir os dados anual armazenado no redis
-            yearDataMaxQuantityPerCategory = ValueCounter.Quantidade_Maximaque_Um_Valor_Aparece_Por_Categoria(yearData)#Armazena os dados contabilizando a ocorrêncisa de cada valor
-            
-            #print de verificação
-            print(f"Load year data : {yearDataMaxQuantityPerCategory['primeiro_semestre']['UF']}")
-
-            
+            #Armazena os dados contabilizando a ocorrêncisa de cada valor
+            yearDataMaxQuantityPerCategory = ValueCounter.Quantidade_Maximaque_Um_Valor_Aparece_Por_Categoria(yearData)
+                        
             return yearDataMaxQuantityPerCategory , yearData
         
         else:

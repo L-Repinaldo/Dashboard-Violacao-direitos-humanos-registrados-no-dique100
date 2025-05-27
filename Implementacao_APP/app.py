@@ -1,7 +1,7 @@
 from flask import Flask, redirect , render_template , request, url_for , session
 from DataOperations import DataFrameToDict
 from DataBase import data_base, redis_cliente 
-import dask.dataframe as dd 
+import dask.dataframe
 from dash_app import create_dash_aplication
 
 
@@ -19,20 +19,23 @@ def load_data_for_Year(year):
           #Pega o dicionário que armazena os arquivos referentes ao ano de interesse.
           files = data_base.Years.get(year)
 
-          categories = ['UF', 'Raça/Cor do suspeito', 'Grupo vulnerável', 'violacao', 'motivacoes', 'Cenário_da_violação', 'Grau_instrução_do_suspeito', 'Faixa_etária_da_vítima','Faixa_etária_do_suspeito', 'Gênero_da_vítima', 'Relação_vítima_suspeito', 'Denunciante']
+          categories = ['UF', 'Raça/Cor do suspeito', 'Grupo vulnerável', 'violacao', 'motivacoes', 'Cenário_da_violação', 
+                        'Grau_instrução_do_suspeito', 'Faixa_etária_da_vítima','Faixa_etária_do_suspeito', 'Gênero_da_vítima', 
+                        'Relação_vítima_suspeito', 'Denunciante']
 
           if files:
                
                #Pega os arquivos CSV's que representam os dados anuais, separados em semestres, armazenados no dicionário files
-               firstSemesterData = dd.read_csv(files[0], dtype = str, delimiter = ";", usecols = categories, low_memory = False)
-               secondSemesterData = dd.read_csv(files[1], dtype = str, delimiter = ";", usecols = categories, low_memory = False)
+               firstSemesterData = dask.dataframe.read_csv(files[0], dtype = str, delimiter = ";", usecols = categories, low_memory = False)
+               secondSemesterData = dask.dataframe.read_csv(files[1], dtype = str, delimiter = ";", usecols = categories, low_memory = False)
                
-               #Armazena os dados por Dicionário de dicionário, no qual cada dicionário, com exceção dos que separam os semestres, representam uma linha do arquivo csv
+              #Armazena os dados por Dicionário de dicionário, no qual cada dicionário, com exceção dos que separam os semestres, representam uma linha do arquivo csv
                result = DataFrameToDict.Transforma_Dataframe_em_Dicionario(categories, firstSemesterData, secondSemesterData)   
-               
-               #Print para que eu possa verificar no terminal se é o resultado esperado
-               print(result['primeiro_semestre'][0])   
 
+               """  #Exemplo da saída de Result:
+               print("Saída esperada para a primeira linha do primeiro semestre de 2020 : ")
+               print(result['primeiro_semestre'][0])"""
+               
                return result       
                
           else:
@@ -43,7 +46,7 @@ def load_data_for_Year(year):
           
      except Exception as e:
 
-          print(f"Erro ao carrragar os dados {e}")
+          print(f"Erro ao carregar os dados {e}")
 
 #Seleciona o ano  
 def ChooseYear():
@@ -93,7 +96,6 @@ def armazenarDados(year):
     try: 
           
           yearData = load_data_for_Year(year)
-          print(yearData['primeiro_semestre'][0])
           session['year'] = year
           redis_cliente.set_year_data(year , yearData)  #Armazena os dados do ano no Redis
 
@@ -103,8 +105,9 @@ def armazenarDados(year):
          
          print(f'Erro ao armazenar os dados no servidor redis : {e}')
 
-dash_app = create_dash_aplication(my_server)
 
+
+dash_app = create_dash_aplication(my_server)
 
 #Reenderiza o Dash
 @my_server.route("/dash/")

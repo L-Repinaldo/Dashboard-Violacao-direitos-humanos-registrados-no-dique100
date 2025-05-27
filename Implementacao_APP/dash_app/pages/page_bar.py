@@ -13,7 +13,7 @@ try :
     layout = html.Div([
 
     html.H1("Gráfico de Barras"),
-    html.Div(id='session-year'), 
+    html.H3("Esse gráfico mostra a quantidade de vezes cada dado apareceu por determinada categoria"),
     dcc.Dropdown(
 
         id='bar-dropdown',
@@ -28,8 +28,7 @@ try :
             'value': 'Grupo vulnerável'},
             {'label': 'Grau de Instrução do Suspeito',
             'value' : 'Grau_instrução_do_suspeito'},
-            {'label': 'Gênero_da_vítima',
-             'value' : 'Gênero_da_vítima'}
+
 
         ],
 
@@ -37,7 +36,6 @@ try :
  
     ),
     dcc.Graph(id='bar-graph', className = 'meu-grafico ', style = { 'width' : '800%' , 'height' : '90%'}),
-    html.A("Voltar ao Menu de Ano", href = "/"),
     dcc.Store(id = "year-data-store-max" ),
 
     ])
@@ -48,7 +46,7 @@ except Exception as e :
 
 
 
-#Gera o gráfico em Barras
+
 @dash.callback(
         
     Output('bar-graph', 'figure'),
@@ -73,14 +71,11 @@ def update_bar_graph(selected_category, yearDataMaxQuantityPerCategory):
                          y = 'Total Denúncias',
                          labels={selected_category: selected_category, 'Total Denúncias': 'Total Denúncias'},
                          color= selected_category,
-                         color_continuous_scale='green',
                          )
             
             #Filtra o gráfico para não mostrar a quantidade dos valores não preenchidos ("N/D")
             fig.for_each_trace(lambda trace: trace.update(visible = "legendonly")
                             if trace.name == "N/D" else())
-
-            print(f"Gerou gráfico para {selected_category}")
 
             return fig
         
@@ -91,6 +86,7 @@ def update_bar_graph(selected_category, yearDataMaxQuantityPerCategory):
     except Exception as e:
          
          print(f'Erro ao atualizar  o gráfico em barras')
+         return {'data': [], 'layout': {'title': 'Dados não disponíveis'}}
 
 
 

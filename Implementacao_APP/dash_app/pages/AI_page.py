@@ -2,7 +2,6 @@ import dash
 from dash import  html, dcc
 from dash.dependencies import Input, Output
 import flask
-#from AI import gemini  # Importa  módulo de configuração da Gemini
 import google.generativeai as genai
 
 
@@ -10,7 +9,7 @@ dash.register_page(__name__, path="/AI_page")
 
 try:
     layout = html.Div([
-        html.Div(id = 'session-year'),
+   
         html.H1("Prompt IA"),
         html.H3("Análise focada na categoria Grupo Vulnerável"),
         dcc.Dropdown(
@@ -21,7 +20,8 @@ try:
         html.Div(id = "AI-page"),
         dcc.Store(id="ai-dropdown-options"),  # Store para as opções do dropdown
         html.Div(id='ai-generated-text', className="ai-output"),  # Div para a saída da IA
-        html.A("Voltar ao Menu de Ano", href="/"),
+        dcc.Store(id = "year-data-store-max" ),
+
     ])
 
    

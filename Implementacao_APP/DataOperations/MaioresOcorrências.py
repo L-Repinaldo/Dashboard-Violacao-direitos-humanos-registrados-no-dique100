@@ -59,7 +59,7 @@ def Maiores_Ocorrências_por_valor(yearData,  releventCategories, selected_categ
 
         df = pd.DataFrame(all_rows)
         
-        print(f"DataFrame final (head):\n{df.head().to_string() if df is not None else None}")
+        #print(f"DataFrame final (head):\n{df.head().to_string() if df is not None else None}")
         
         return df
 
