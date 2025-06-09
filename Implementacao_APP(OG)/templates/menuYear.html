@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/menu.css">
+    <title>App dashboard Violência</title>
+</head>
+<body>
+    <header class = 'content'>
+        <h1 id="BoasVindas">Bem vindo ao Dashboard sobre a Violência no Brasil</h1>
+        <p>Este produto, visa disponibilizar a visulização dos dados da Violação dos Direitos Humanos do disque 100
+            entre os anos de 2020 a 2024 </p>
+    </header>
+    <main>
+        <div class="SelcionaAno">
+            <form method="POST">
+            <h2>Selecione um Ano</h2>
+            <label for="year">Ano: </label>
+            <select name="year" id="year">
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+            </select>
+            <button type="submit">Selecionar Ano</button>
+        </form>
+        {% if error %}
+        <p style="color:red;">{{ error }}</p>
+        {% endif %}
+        </div>
+    </main>
+</body>
+</html>
