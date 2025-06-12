@@ -1,6 +1,6 @@
 .content{
     width: 100%;
-    background: #F7F7F7;
+    background-color: #eee ;
     }
    
    .graph_content{
@@ -11,21 +11,27 @@
     }
    
    .graph_menu {
+    color : #eee;
+    background-color:#23548c ;
     width: 15%;
     position: absolute;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100%;
     z-index: 999;
-    background: lightgrey;
    }
 
    .meu-grafico {
     width: 800px !important;
-    height: 600px !important;
+    height: 300px !important;;
+   }
+
+   a{
+      color : #eee;
    }
 
    #Navegação{
-    color: lightgreen;
-    display: block;
+    display: inline-block;
+    color : #eee;
+
    }
