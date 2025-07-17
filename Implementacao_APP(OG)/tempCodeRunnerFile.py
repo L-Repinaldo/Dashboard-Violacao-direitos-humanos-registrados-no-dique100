@@ -1,1 +1,0 @@
-merge(yearData, data , how = 'outer' , on = category )
