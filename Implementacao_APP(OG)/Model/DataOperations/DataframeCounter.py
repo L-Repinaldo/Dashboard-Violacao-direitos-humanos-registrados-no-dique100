@@ -1,7 +1,7 @@
 import dask.dataframe as dd
 import pandas as pd
 
-def Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_Pandas_Dataframe):
+def Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_Dask_Dataframe: dd.DataFrame):
     categories = [
         'UF', 'Raça/Cor do suspeito', 'Grupo vulnerável', 'violacao', 'motivacoes',
         'Cenário_da_violação', 'Grau_instrução_do_suspeito', 'Faixa_etária_da_vítima',
@@ -10,35 +10,37 @@ def Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_Pandas_Datafra
 
     try:
         # Verifica se o DataFrame está vazio
-        if yearData_Pandas_Dataframe.size == 0:
+        if yearData_Dask_Dataframe.columns.size == 0:
             print('Year Data está vazio')
-            return dd.from_pandas(pd.DataFrame(columns=['Categoria', 'Valor', 'Contagem']), npartitions=1)
+            return pd.DataFrame(columns=['Categoria', 'Valor', 'Contagem'])
 
-        # Inicializa um DataFrame vazio para armazenar os resultados
-        result_df = pd.DataFrame(columns=['Categoria', 'Valor', 'Contagem'])
+        lista_df = []
 
         for category in categories:
             # Remove nulos e padroniza para maiúsculas
-            valores_validos = yearData_Pandas_Dataframe[category].dropna().str.upper()
+            coluna = yearData_Dask_Dataframe[category].dropna().str.upper()
 
-            # Conta as ocorrências de cada valor
-            contagem = valores_validos.value_counts()
+            temp_df = coluna.to_frame(name = 'Valor')
+            temp_df['Contagem'] = 1
 
-            # Para cada valor e sua contagem, cria um DataFrame
-            temp_df = pd.DataFrame({
-                'Categoria': [category] * len(contagem),
-                'Valor': contagem.index,
-                'Contagem': contagem.values
-            })
+            # Conta as ocorrências de cada valor 
+            contagem = temp_df.groupby('Valor')['Contagem'].sum().reset_index()
+            contagem['Categoria'] = category
 
-            # Adiciona o DataFrame temporário ao DataFrame principal
-            result_df = pd.concat([result_df, temp_df], ignore_index=True)
+            #Reorganização das colunas
+            contagem = contagem[['Categoria', 'Valor', 'Contagem']]
 
-        print(result_df.head())
+            lista_df.append(contagem)
+        
+        # Adiciona o DataFrame temporário ao DataFrame principal
+        result_Dask_df = dd.concat(lista_df, interleave_partitions  = True)
 
+        result_pandas_df = result_Dask_df.compute()
+        result_pandas_df = result_pandas_df.sort_values(by='Contagem', ascending=False)
 
-        return result_df
+        return result_pandas_df
 
     except Exception as e:
         print(f'Erro ao contabilizar as ocorrências de cada atributo: {e}')
         return dd.from_pandas(pd.DataFrame(columns=['Categoria', 'Valor', 'Contagem']), npartitions=1)
+

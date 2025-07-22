@@ -3,7 +3,6 @@ from Model.DataBase import data_base
 from Dash.dash_app import create_dash_aplication
 
 
-
 my_server = Flask(__name__)
 my_server.secret_key = "mysecretkey" #Adiciona uma chave secreta para a sessão que é fundamentalapara a segurança de cookies
 
@@ -55,14 +54,8 @@ def menu_Year():
 def armazenarDados(year):
     
     try: 
-          
-          #yearData = LoadDataForYear.load_data_for_Year(year)
-
-          #if yearData is None:
-               #return render_template('menuYear.html', mensage = "Erro ao carregar os dados do ano.")
-          
+                    
           session['year'] = year
-          #redis_cliente.set_year_data(year , yearData)  #Armazena os dados do ano no Redis
 
           return redirect(url_for('render_dash'))
     

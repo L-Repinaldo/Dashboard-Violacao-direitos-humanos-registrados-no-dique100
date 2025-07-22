@@ -68,9 +68,6 @@ def update_bar_graph(selected_category, yearDataMaxQuantityPerCategory):
 
             data = pd.DataFrame(dict_data)
             filtered_data = data[data['Categoria'] == selected_category]
-
-            print("Head de filtered_data em update_bar_graph")
-            print(filtered_data.head())
             
             fig = px.bar(filtered_data,
                          x = 'Valor',

@@ -109,12 +109,12 @@ def load_year_data(year):
 
         if year:
 
-            year = int(flask.session.get('year'))
+            year = int(year)
 
             yearData_Dask_dataframe = load_data_for_Year(year)
-            yearData_pd = yearData_Dask_dataframe.compute()
+            #yearData_pd = yearData_Dask_dataframe.compute()
 
-            yearData_Quantity_Per_Category_pd = Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_pd)            
+            yearData_Quantity_Per_Category_pd = Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_Dask_dataframe)            
             yearData_Quantity_json = yearData_Quantity_Per_Category_pd.to_json(orient =  'records')
 
 
