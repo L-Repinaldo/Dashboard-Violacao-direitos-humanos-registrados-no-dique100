@@ -1,15 +1,11 @@
 import dash
-from dash import html, dcc
+from dash import html
 
 
-dash.register_page(__name__, path="/initial_page")
+dash.register_page(__name__, path="/dash/")
 
 
-try:
-    layout = html.Div([
+layout = html.Div([
         html.H1("Bem-vindo ao Dash App"),
         html.H3("Selecione uma categoria no menu ao lado para começar.")
     ])
-
-except Exception as e:
-    print(f"Erro ao criar a págian inicial:  {e}")

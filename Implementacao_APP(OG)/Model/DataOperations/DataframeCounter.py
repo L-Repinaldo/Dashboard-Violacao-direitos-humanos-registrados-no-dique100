@@ -1,6 +1,7 @@
 import dask.dataframe as dd
 import pandas as pd
 
+
 def Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_Dask_Dataframe: dd.DataFrame):
     categories = [
         'UF', 'Raça/Cor do suspeito', 'Grupo vulnerável', 'violacao', 'motivacoes',

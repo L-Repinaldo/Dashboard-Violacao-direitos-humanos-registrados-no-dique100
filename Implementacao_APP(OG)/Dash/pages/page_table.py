@@ -79,5 +79,3 @@ def display_table( selected_category, yearData):
         print(f'Erro ao gerar a tabela : {e}')
         return {'data': [], 'layout': {'title': 'Dados não disponíveis'}}
 
-
-

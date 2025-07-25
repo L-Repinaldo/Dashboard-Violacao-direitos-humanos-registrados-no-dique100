@@ -39,6 +39,8 @@ def create_dash_aplication(flask_app):
                     className = "graph_menu",
 
                     children = [
+                        html.H1(id = "display-session-year"),
+                        html.Br(),
                         html.H1("Categorias"),
                         html.H2("Selecione uma categoria de análise"),
                         #Cria um barra de Navegação que redireciona para cada página dash
@@ -62,11 +64,10 @@ def create_dash_aplication(flask_app):
                                html.A("Voltar ao Menu de Ano", href = "/"),
                             ],
                             brand = "Página Inicial",
-                            brand_href="/initial_page",
+                            brand_href="/dash/",
                             color="primary",
                             dark=True,
                         ),
-                        dcc.Store(id = 'year-data-store'),#Armazena os dados por Dicionário de dicionário, no qual cada dicionário, com exceção dos que separam os semestres, representam uma linha do arquivo csv
                         dcc.Store(id = "year-data-store-max" ),#Armazena os dados contabilizando o número de aparições de cada valor.
 
                     ]
@@ -122,13 +123,13 @@ def load_year_data(year):
         
         else:
 
-            return {}, {}          
+            return {}         
 
     except Exception as e:
 
         print(f'Erro ao carregar os dados no servido Dash: {e}')
 
-        return {},{}
+        return {}
 
  # Callback para atualizar o 'session-year' quando o ano estiver na sessão Flask
 @dash.callback(
@@ -141,3 +142,14 @@ def update_session_year(pathname):
     if year:
         return int(year)
     return dash.no_update
+
+
+
+@dash.callback(
+    Output('display-session-year', 'children'),
+    Input('session-year', 'data'),
+)
+def mostrar_ano_em_h1(ano):
+    if ano:
+        return f"Ano selecionado: {ano}"
+    return "Nenhum ano selecionado"
