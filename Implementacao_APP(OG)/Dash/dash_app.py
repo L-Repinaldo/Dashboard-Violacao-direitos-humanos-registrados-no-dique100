@@ -4,7 +4,7 @@ import dash_bootstrap_components as dbc
 from dash.dependencies import Input, Output
 import flask
 from Model.DataOperations.LoadDataForYear import load_data_for_Year
-from Model.DataOperations.DataframeCounter import Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria
+from Model.DataOperations.DataframeCounter import calculate_max_occurrences_by_category
 
 
 
@@ -32,8 +32,6 @@ def create_dash_aplication(flask_app):
             className = "content",
             children = [
 
-                dcc.Store(id='session-year'),  # Store para o ano da sessão
-                dcc.Location(id='url', refresh=False),
                 html.Div(
                     
                     className = "graph_menu",
@@ -68,7 +66,9 @@ def create_dash_aplication(flask_app):
                             color="primary",
                             dark=True,
                         ),
-                        dcc.Store(id = "year-data-store-max" ),#Armazena os dados contabilizando o número de aparições de cada valor.
+                        dcc.Store(id = 'year-data-max-occurrences-store' , storage_type= 'session' ),#Armazena os dados contabilizando o número de aparições de cada valor.
+                        dcc.Location(id='url', refresh=False),
+                        dcc.Store(id='session-year'),  # Store para o ano da sessão
 
                     ]
 
@@ -97,39 +97,48 @@ def create_dash_aplication(flask_app):
 
 #Carrega os dados que serão utilizados
 @dash.callback(
-    Output('year-data-store-max', 'data'), 
+    Output('year-data-max-occurrences-store', 'data'), 
     Input('session-year', 'data'),  # Aciona quando o ano da sessão muda
 
    
 )
 
     
-def load_year_data(year):
+def load_aggregated_data_for_store(year):
+
+    """
+        Carrega o Dask DataFrame para o ano selecionado e calcula as ocorrências máximas.
+        Armazena os dados agregados (que são pequenos) no dcc.Store.
+        O DataFrame Dask completo NÃO é computado e armazenado aqui.
+    """
 
     try:
-
+        
         if year:
 
             year = int(year)
 
-            yearData_Dask_dataframe = load_data_for_Year(year)
-            #yearData_pd = yearData_Dask_dataframe.compute()
+            year_data_dask = load_data_for_Year(year)
 
-            yearData_Quantity_Per_Category_pd = Quantidade_Maxima_que_Um_Valor_Aparece_Por_Categoria(yearData_Dask_dataframe)            
-            yearData_Quantity_json = yearData_Quantity_Per_Category_pd.to_json(orient =  'records')
+            if year_data_dask is None:
+                    print(f"Dados Dask não disponíveis para o ano {year}.")
+                    return {}
+        
+            year_data_max_occurrences_pd = calculate_max_occurrences_by_category(year_data_dask)            
+            year_data_max_occurrences_json = year_data_max_occurrences_pd.to_json(orient =  'records')
 
 
-            return yearData_Quantity_json 
+            return year_data_max_occurrences_json
         
         else:
 
-            return {}         
+            return {} 
 
     except Exception as e:
 
-        print(f'Erro ao carregar os dados no servido Dash: {e}')
+        print(f'Erro ao carregar os dados agregados no servido Dash: {e}')
 
-        return {}
+        return {}, {}
 
  # Callback para atualizar o 'session-year' quando o ano estiver na sessão Flask
 @dash.callback(
@@ -138,9 +147,15 @@ def load_year_data(year):
 
 )
 def update_session_year(pathname):
+    """
+        Atualiza o dcc.Store 'session-year' com o ano da sessão Flask.
+    """
+
     year = flask.session.get('year')
+
     if year:
         return int(year)
+
     return dash.no_update
 
 
@@ -149,7 +164,12 @@ def update_session_year(pathname):
     Output('display-session-year', 'children'),
     Input('session-year', 'data'),
 )
-def mostrar_ano_em_h1(ano):
-    if ano:
-        return f"Ano selecionado: {ano}"
+def show_selected_year_in_h1(year):
+    """
+        Exibe o ano selecionado em um elemento H1.
+    """
+
+    if year:
+        return f"Ano selecionado: {year}"
+
     return "Nenhum ano selecionado"

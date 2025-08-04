@@ -33,8 +33,11 @@ try :
         ],
 
         value = "Grupo vulnerável",
+        style={'width': '50%'}
+
  
     ),
+    html.Br(),
     dcc.Graph(id='bar-graph', className = 'meu-grafico ', style = { 'width' : '100%' , 'height' : '100%'}),
 
     ])
@@ -50,11 +53,11 @@ except Exception as e :
         
     Output('bar-graph', 'figure'),
     Input('bar-dropdown', 'value'),
-    Input('year-data-store-max', 'data'),
+    Input('year-data-max-occurrences-store', 'data'),
     prevent_initial_call=True
 
 )
-def update_bar_graph(selected_category, yearDataMaxQuantityPerCategory):
+def update_bar_graph(selected_category, year_data_max_occurrences_json):
 
 
     try : 
@@ -62,7 +65,7 @@ def update_bar_graph(selected_category, yearDataMaxQuantityPerCategory):
 
         print(f"Update_bar_graph : {selected_category}")
 
-        dict_data = json.loads(yearDataMaxQuantityPerCategory)
+        dict_data = json.loads(year_data_max_occurrences_json)
 
         if dict_data:
 

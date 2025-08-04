@@ -25,8 +25,7 @@ try:
                   html.H2("⚠️ Observação: O texto acima foi gerado por IA com base em padrões linguísticos. " \
                     "Algumas afirmações podem não ter respaldo empírico ou jurídico. Use como apoio interpretativo, não como fonte oficial.", 
                     style={'color': 'orange'})]),
-        dcc.Store(id = "year-data-store-max" ),
-
+    
     ])
 
    
@@ -41,16 +40,16 @@ except Exception as e:
 
     Output('AI-dropdown', 'options'),
     Input('AI-page', 'id'),  # Input fictício para acionar o callback na carga da página
-    Input('year-data-store-max', 'data' ),
+    Input('year-data-max-occurrences-store', 'data' ),
     allow_duplicate=True,
     prevent_initial_call=True
 )
 
 
-def load_ai_page_data(id, yearDataMaxQuantityPerCategory):
+def load_ai_page_data(id, year_data_max_occurrences_json):
 
     try:
-        dict_data = json.loads(yearDataMaxQuantityPerCategory)
+        dict_data = json.loads(year_data_max_occurrences_json)
 
         options = []
 

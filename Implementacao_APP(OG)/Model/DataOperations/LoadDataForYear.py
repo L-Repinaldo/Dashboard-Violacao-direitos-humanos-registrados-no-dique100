@@ -21,10 +21,10 @@ def load_data_for_Year(year):
                         'Relação_vítima_suspeito', 'Denunciante']
           
         #Lê os arquivos CSV's dos dois semestres
-        firstSemesterData = dask.dataframe.read_csv(files[0], dtype = str, delimiter = ";", usecols = categories)
-        secondSemesterData = dask.dataframe.read_csv(files[1], dtype = str, delimiter = ";", usecols = categories)
+        first_semester_data = dask.dataframe.read_csv(files[0], dtype = str, delimiter = ";", usecols = categories)
+        second_semester_data = dask.dataframe.read_csv(files[1], dtype = str, delimiter = ";", usecols = categories)
 
-        result = dask.dataframe.concat([firstSemesterData, secondSemesterData], axis=0, interleave_partitions=True)
+        result = dask.dataframe.concat([first_semester_data, second_semester_data], axis=0, interleave_partitions=True)
         result = result.repartition(npartitions=8) 
             
         return result   
