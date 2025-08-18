@@ -47,6 +47,7 @@ def calculate_most_frequent_by_category(data: dd.DataFrame, group_by_column: str
             freq = (
                 data[[group_by_column, col]]
                 .dropna()
+                [~data[col].isin(["N/D", "<NA>"])]
                 .groupby([group_by_column, col])
                 .size()
                 .compute()  
