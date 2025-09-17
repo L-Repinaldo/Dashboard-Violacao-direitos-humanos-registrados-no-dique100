@@ -1,15 +1,15 @@
 import dask.dataframe
-from Model.DataBase import data_base
+from Model.DataBase import data_base_original
 
 #Carrega os Dados do ano selecionado
-def load_data_for_Year(year):
+def carrega_os_dados_por_ano(year):
          
     try : 
          
         year = int(year)
           
         #Pega o dicionário que armazena os arquivos referentes ao ano de interesse.
-        files = data_base.Years.get(year)
+        files = data_base_original.Years.get(year)
 
         if not files:
 
@@ -24,10 +24,7 @@ def load_data_for_Year(year):
         first_semester_data = dask.dataframe.read_csv(files[0], dtype = str, delimiter = ";", usecols = categories)
         second_semester_data = dask.dataframe.read_csv(files[1], dtype = str, delimiter = ";", usecols = categories)
 
-        result = dask.dataframe.concat([first_semester_data, second_semester_data], axis=0, interleave_partitions=True)
-        result = result.repartition(npartitions=8) 
-            
-        return result   
+        return first_semester_data, second_semester_data   
           
     except Exception as e:
 
