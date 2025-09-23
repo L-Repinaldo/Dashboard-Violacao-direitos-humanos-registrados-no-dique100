@@ -3,10 +3,6 @@ import pandas as pd
 import plotly.express as px
 
 from Operacoes.carregar_dados import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
-from Operacoes.normaliza_dados import (
-    normalizar_categoria_faixa_etaria,
-    normalizar_categoria_motivacao
-)
 
 # =========================
 # Carrega todos os dados de todos os anos (visão geral)

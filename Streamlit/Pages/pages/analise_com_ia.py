@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import google.generativeai as genai
 
-from Operacoes.carregar_dados import carregar_dados_gerais_ano
+from Operacoes.carregar_dados import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
 
 # =========================
 # Configuração do modelo (cacheado)
@@ -25,47 +25,30 @@ def carregar_todos_os_dados():
 # =========================
 @st.cache_data
 def carregar_historico_grupo(grupo):
-    dados_por_ano = carregar_todos_os_dados()
-    lista = []
 
-    for ano, df in dados_por_ano.items():
+    df = carregar_dados_grupos_vulneraveis( anos = None, grupos = grupo, semestre = None, to_pandas = False  )
 
-        df_f = df[df["Grupo vulnerável"].str.strip().str.lower() != "total geral"].copy()
-        df_f["Ano"] = ano
-        df_f = df_f[df_f["Grupo vulnerável"] == grupo]
-
-        if df_f.empty:
-            continue
-
-        for col in df_f.columns:
-            if df_f[col].dtype == object:
-                df_f = df_f[df_f[col].str.upper() != "N/D"]
-
-        lista.append(df_f)
-
-    if not lista:
+    if len(df.columns) == 0:
         return None
 
-    return pd.concat(lista, ignore_index=True)
+    # Remover registros inválidos como "N/D"
+    for col in df.columns:
+        if df[col].dtype == object:
+            df = df[df[col].str.upper() != "N/D"]
+
+    return df
 
 
 # =========================
 # Geração de texto pela IA
 # =========================
-def gerar_texto_global(grupo, df_hist, model):
-
-    resumo = (
-        df_hist.groupby("Ano")
-        .size()
-        .reset_index(name="total")
-        .sort_values("Ano")
-        .to_string(index=False)
-    )
+def gerar_texto_global(grupo, df_hist_grupo, dados_por_ano, model):
 
     prompt = (
         f"Você é um analista de políticas públicas. Com base no histórico completo de denúncias envolvendo o grupo '{grupo}', "
         f"presente nos dados a seguir, elabore um texto informativo.\n\n"
-        f"Resumo de denúncias por ano (linhas=ano e total de registros):\n{resumo}\n\n"
+        f"Resumo de denúncias por ano (linhas=ano e total de registros):\n{dados_por_ano}\n\n"
+        f"Dados das denúncias em Dask DataFrame: \n{df_hist_grupo}\n\n "
         "Instruções:\n"
         "- Analise as tendências históricas do grupo (crescimento, redução, estabilidade).\n"
         "- Discuta possíveis razões sociais/institucionais para a incidência dessas denúncias.\n"
@@ -107,11 +90,13 @@ def mostrar():
 
     if st.button("Gerar análise da IA"):
         with st.spinner("Carregando histórico e gerando análise..."):
-            df_hist = carregar_historico_grupo(grupo_escolhido)
-            if df_hist is None or df_hist.empty:
+            df_hist_grupo = carregar_historico_grupo(grupo_escolhido)
+
+            if df_hist_grupo is None or len(df_hist_grupo.columns) == 0:
                 st.warning("Sem dados históricos para este grupo.")
                 return
-            texto = gerar_texto_global(grupo_escolhido, df_hist, model)
+            texto = gerar_texto_global(grupo = grupo_escolhido, df_hist_grupo= df_hist_grupo, 
+                                       dados_por_ano = df_todos[df_todos["Grupo vulnerável"] == grupo_escolhido], model = model)
             st.session_state["ia_texto"] = texto
             st.success("Análise gerada.")
 
@@ -121,9 +106,10 @@ def mostrar():
 
         if st.button("🔄 Refazer análise"):
             with st.spinner("Gerando nova versão..."):
-                df_hist = carregar_historico_grupo(grupo_escolhido)
-                st.session_state["ia_texto"] = gerar_texto_global(grupo_escolhido, df_hist, model)
-                st.experimental_rerun()
+                df_hist_grupo = carregar_historico_grupo(grupo_escolhido)
+                st.session_state["ia_texto"] = gerar_texto_global(grupo = grupo_escolhido, df_hist_grupo= df_hist_grupo, 
+                                       dados_por_ano = df_todos[df_todos["Grupo vulnerável"] == grupo_escolhido], model = model)
+                st.rerun()
 
     st.info(
         "⚠️ Observação: o texto gerado é um apoio interpretativo, não substitui fontes oficiais."
