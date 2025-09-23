@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
-from Operacoes.constroi_graficos import grafico_barra, grafico_linhas
-from Operacoes.carregar_dados import carregar_dados_gerais_ano
+
+from operacoes import grafico_barra, grafico_linhas, carregar_dados_gerais_ano
 
 
 def mostrar():

@@ -1,10 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from Operacoes.carregar_dados import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
-from Operacoes.contar_ocorrencias_por_coluna import contar_ocorrencias_por_coluna
-from Operacoes.constroi_graficos import grafico_barra, grafico_pizza
-from Operacoes.normaliza_dados import normalizar_categoria_faixa_etaria, normalizar_categoria_motivacao
+from operacoes import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis, moda_coluna, grafico_barra, grafico_pizza, normaliza_faixa_etaria, normaliza_motivacoes
 
 
 # =========================
@@ -29,7 +26,7 @@ def carregar_dados_grupo(ano, grupo):
 # Contar ocorrências de colunas
 # =========================
 def contar_frequencias(df1, df2, colunas):
-    return {coluna: contar_ocorrencias_por_coluna(df1, df2, coluna) for coluna in colunas}
+    return {coluna: moda_coluna(df1, df2, coluna) for coluna in colunas}
 
 
 # =========================
@@ -212,7 +209,7 @@ def mostrar():
     st.subheader("Tabela Faixa etária vítima - Top5")
 
     df_idade_vitima = frequencias['Faixa_etária_da_vítima']
-    df_idade_vitima = normalizar_categoria_faixa_etaria(df = df_idade_vitima , coluna = "Aparições")
+    df_idade_vitima = normaliza_faixa_etaria(df = df_idade_vitima , coluna = "Aparições")
 
     if not df_idade_vitima.empty:
         total_de_classes = df_idade_vitima['count'].sum()
@@ -227,7 +224,7 @@ def mostrar():
     st.subheader("Tabela Faixa etária suspeito - Top5")
 
     df_idade_suspeito = frequencias['Faixa_etária_do_suspeito']
-    df_idade_suspeito = normalizar_categoria_faixa_etaria(df = df_idade_suspeito , coluna = "Aparições")
+    df_idade_suspeito = normaliza_faixa_etaria(df = df_idade_suspeito , coluna = "Aparições")
 
     if not df_idade_suspeito.empty:
         total_de_classes = df_idade_suspeito['count'].sum()
@@ -279,7 +276,7 @@ def mostrar():
     # =========================
     st.subheader("Motivações - Top5")
     df_motivacao = frequencias['motivacoes']
-    df_motivacao = normalizar_categoria_motivacao(df = df_motivacao, coluna ="Aparições" )
+    df_motivacao = normaliza_motivacoes(df = df_motivacao, coluna ="Aparições" )
 
     if not df_motivacao.empty:
         total_motivacao = df_motivacao['count'].sum()

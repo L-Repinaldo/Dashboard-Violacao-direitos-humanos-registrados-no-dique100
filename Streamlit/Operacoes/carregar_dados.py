@@ -2,7 +2,7 @@ import os
 import dask.dataframe as dd
 import pandas as pd
 
-from Dados.dicionario_caminho_dados import dicionario_caminho_dados
+from dados import caminho_dados
 
 def carregar_dados_grupos_vulneraveis(anos=None, grupos=None, semestre=None, to_pandas=False):
     """
@@ -18,7 +18,7 @@ def carregar_dados_grupos_vulneraveis(anos=None, grupos=None, semestre=None, to_
         dask.DataFrame ou pandas.DataFrame
     """
 
-    pasta_dados = dicionario_caminho_dados("Pasta")
+    pasta_dados = caminho_dados("Pasta")
     caminhos = []
 
     if isinstance(anos, int):
@@ -85,7 +85,7 @@ def carregar_dados_gerais_ano(remove_total = False):
         dict[int, pd.DataFrame]: Dicionário com ano como chave e DataFrame como valor.
     """
 
-    pasta_dados = dicionario_caminho_dados("Pasta")
+    pasta_dados = caminho_dados("Pasta")
 
     dados = {}
 

@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import google.generativeai as genai
 
-from Operacoes.carregar_dados import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
+from operacoes import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
 
 # =========================
 # Configuração do modelo (cacheado)

@@ -1,5 +1,6 @@
 import streamlit as st
-from Pages.pages import dashboard_geral, analise_por_ano, analise_todos_os_anos, analise_com_ia
+
+from paginas import dashboard_geral, analise_por_ano, analise_todos_os_anos, analise_com_ia
 
 st.set_page_config(
     page_title="Análise de Violações",
@@ -17,10 +18,10 @@ pagina = st.sidebar.radio(
 )
 
 if pagina == "Dashboard Geral":
-    dashboard_geral.mostrar()
+    dashboard_geral()
 elif pagina == "Análise por Ano":
-    analise_por_ano.mostrar()
+    analise_por_ano()
 elif pagina == "Análise Todos os Anos":
-    analise_todos_os_anos.mostrar()
+    analise_todos_os_anos()
 elif pagina == "Análises com IA":
-    analise_com_ia.mostrar()
+    analise_com_ia()
