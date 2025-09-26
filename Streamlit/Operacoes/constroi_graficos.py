@@ -11,7 +11,9 @@ def grafico_barra(df, x, y, titulo, color=None):
                  y = y, 
                  color = color or x, 
                  text = y, 
-                 title = titulo)
+                 title = titulo,
+                 height = 450,
+                 )
     fig.update_traces(texttemplate='%{text:,}', textposition="outside")
     fig.update_layout(showlegend=False)
     st.plotly_chart(fig, use_container_width=True)
