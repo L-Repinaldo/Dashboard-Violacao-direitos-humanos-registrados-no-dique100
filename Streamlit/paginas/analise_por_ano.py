@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from operacoes import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis, moda_coluna, grafico_barra, grafico_pizza, normaliza_faixa_etaria, normaliza_motivacoes
+from Operacoes import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis, moda_coluna, grafico_barra, grafico_pizza, normaliza_faixa_etaria, normaliza_motivacoes
 
 
 # =========================

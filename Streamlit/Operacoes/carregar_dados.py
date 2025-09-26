@@ -2,7 +2,7 @@ import os
 import dask.dataframe as dd
 import pandas as pd
 
-from dados import caminho_dados
+from Dados import caminho_dados
 
 def carregar_dados_grupos_vulneraveis(anos=None, grupos=None, semestre=None, to_pandas=False):
     """

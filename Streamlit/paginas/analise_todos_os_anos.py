@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-from operacoes import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
+from Operacoes import carregar_dados_gerais_ano, carregar_dados_grupos_vulneraveis
 
 # =========================
 # Carrega todos os dados de todos os anos (visão geral)
