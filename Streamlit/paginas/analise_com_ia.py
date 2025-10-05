@@ -44,11 +44,13 @@ def carregar_historico_grupo(grupo):
 # =========================
 def gerar_texto_global(grupo, df_hist_grupo, dados_por_ano, model):
 
+    json_dados_por_ano = dados_por_ano.to_json(None, orient='records', lines=True)
+
     prompt = (
         f"Você é um analista de políticas públicas. Com base no histórico completo de denúncias envolvendo o grupo '{grupo}', "
         f"presente nos dados a seguir, elabore um texto informativo.\n\n"
-        f"Resumo de denúncias por ano (linhas=ano e total de registros):\n{dados_por_ano}\n\n"
-        f"Dados das denúncias em Dask DataFrame: \n{df_hist_grupo}\n\n "
+        f"Resumo de denúncias por ano (linhas=ano e total de registros):\n{json_dados_por_ano}\n\n"
+        f"Dados das denúncias: \n{df_hist_grupo}\n\n "
         "Instruções:\n"
         "- Analise as tendências históricas do grupo (crescimento, redução, estabilidade).\n"
         "- Discuta possíveis razões sociais/institucionais para a incidência dessas denúncias.\n"
