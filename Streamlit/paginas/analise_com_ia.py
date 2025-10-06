@@ -42,21 +42,18 @@ def carregar_historico_grupo(grupo):
 # =========================
 # Geração de texto pela IA
 # =========================
-def gerar_texto_global(grupo, df_hist_grupo, dados_por_ano, model):
-
-    json_dados_por_ano = dados_por_ano.to_json(None, orient='records', lines=True)
+def gerar_texto_global(grupo, df_historico_grupo, model):
 
     prompt = (
-        f"Você é um analista de políticas públicas. Com base no histórico completo de denúncias envolvendo o grupo '{grupo}', "
-        f"presente nos dados a seguir, elabore um texto informativo.\n\n"
-        f"Resumo de denúncias por ano (linhas=ano e total de registros):\n{json_dados_por_ano}\n\n"
-        f"Dados das denúncias: \n{df_hist_grupo}\n\n "
+        f"Você é um analista de políticas públicas. Com base no histórico de denúncias envolvendo o grupo '{grupo}', "
+        f"presente nos dados a seguir, elabore um texto analítico e informativo.\n\n"
+        f"Dados das denúncias:\n{df_historico_grupo}\n\n"
         "Instruções:\n"
-        "- Analise as tendências históricas do grupo (crescimento, redução, estabilidade).\n"
-        "- Discuta possíveis razões sociais/institucionais para a incidência dessas denúncias.\n"
-        "- Sugira estratégias realistas de mitigação e políticas públicas.\n"
-        "- NÃO invente estatísticas além das fornecidas. Use linguagem condicional quando a explicação for inferência.\n"
-        "- Seja claro, objetivo e mantenha tom profissional.\n"
+        "- Contextualize os tipos de violações mais frequentes e seus possíveis impactos sociais.\n"
+        "- Discuta possíveis razões sociais ou institucionais que expliquem a incidência dessas denúncias, em tom condicional.\n"
+        "- Sugira recomendações exploratórias de políticas públicas, apresentando alternativas realistas.\n"
+        "- NÃO invente estatísticas além das fornecidas.\n"
+        "- Use linguagem clara, objetiva, técnica e adequada a um relatório acadêmico.\n"
     )
 
     try:
@@ -97,8 +94,7 @@ def mostrar():
             if df_hist_grupo is None or len(df_hist_grupo.columns) == 0:
                 st.warning("Sem dados históricos para este grupo.")
                 return
-            texto = gerar_texto_global(grupo = grupo_escolhido, df_hist_grupo= df_hist_grupo, 
-                                       dados_por_ano = df_todos[df_todos["Grupo vulnerável"] == grupo_escolhido], model = model)
+            texto = gerar_texto_global(grupo = grupo_escolhido, df_historico_grupo = df_hist_grupo,  model = model)
             st.session_state["ia_texto"] = texto
             st.success("Análise gerada.")
 
@@ -109,8 +105,7 @@ def mostrar():
         if st.button("🔄 Refazer análise"):
             with st.spinner("Gerando nova versão..."):
                 df_hist_grupo = carregar_historico_grupo(grupo_escolhido)
-                st.session_state["ia_texto"] = gerar_texto_global(grupo = grupo_escolhido, df_hist_grupo= df_hist_grupo, 
-                                       dados_por_ano = df_todos[df_todos["Grupo vulnerável"] == grupo_escolhido], model = model)
+                st.session_state["ia_texto"] = gerar_texto_global(grupo = grupo_escolhido, df_historico_grupo = df_hist_grupo, model = model)
                 st.rerun()
 
     st.info(
