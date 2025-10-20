@@ -88,4 +88,6 @@ Para acessar os dados originais, visite: [dados.gov.br](https://dados.gov.br/dad
 <img width="1366" height="768" alt="Captura de tela 2025-10-20 151158" src="https://github.com/user-attachments/assets/5eed80c7-ccb5-4629-9a20-deadbc065717" />
 
 
+## Referência do Artigo 
 
+> *( Em processo de revisão institucional, será adicionada assim que publicado.)*
