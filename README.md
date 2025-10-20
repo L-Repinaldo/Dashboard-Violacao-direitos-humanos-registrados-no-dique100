@@ -44,9 +44,15 @@ Para acessar os dados originais, visite: [dados.gov.br](https://dados.gov.br/dad
 ## Execução Local
 
      streamlit run "Streamlit\app.py"
+
+
+## Referência do Artigo 
+
+> *( Em processo de revisão institucional, será adicionada assim que publicado.)*
+
+
      
 ##  Demonstração
-
 
 
 <img width="1366" height="768" alt="Captura de tela 2025-10-20 143324" src="https://github.com/user-attachments/assets/8037e47c-2ab9-4614-a886-749a8f25c835" />
@@ -86,8 +92,3 @@ Para acessar os dados originais, visite: [dados.gov.br](https://dados.gov.br/dad
 <img width="1366" height="768" alt="Captura de tela 2025-10-20 151147" src="https://github.com/user-attachments/assets/3ed4c4e8-54fd-4790-9d68-198427d12ace" />
 
 <img width="1366" height="768" alt="Captura de tela 2025-10-20 151158" src="https://github.com/user-attachments/assets/5eed80c7-ccb5-4629-9a20-deadbc065717" />
-
-
-## Referência do Artigo 
-
-> *( Em processo de revisão institucional, será adicionada assim que publicado.)*
