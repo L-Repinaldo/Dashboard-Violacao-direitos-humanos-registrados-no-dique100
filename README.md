@@ -18,7 +18,7 @@ Embora o artigo tenha como ênfase principal o grupo dos idosos, a aplicação v
 
 ## Estrutura dos Dados
 
--Fonte: Disque 100 (Ouvidoria Nacional de Direitos Humanos).
+- Fonte: Disque 100 (Ouvidoria Nacional de Direitos Humanos).
 
 -Período: 2020 a 2024.
 
@@ -29,11 +29,11 @@ Para acessar os dados originais, visite: [dados.gov.br](https://dados.gov.br/dad
 
 ## Execução Local
 
-﻿dask==2025.2.0
-google-generativeai==0.8.4
-pandas==2.2.3
-plotly==5.24.1
-streamlit==1.47.1
+- dask==2025.2.0
+- google-generativeai==0.8.4
+- pandas==2.2.3
+- plotly==5.24.1
+- streamlit==1.47.1
 
 ## Instalação 
 
