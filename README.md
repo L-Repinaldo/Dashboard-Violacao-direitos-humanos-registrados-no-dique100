@@ -40,7 +40,7 @@ Para acesso aos dados originais, visite: [dados.gov.br](https://dados.gov.br/dad
      cd Dashboard-denuncias-direitos-humanos-disque100
      pip install -r requirements.txt
      
-### Execução Local
+### Execução 
 
      streamlit run "Streamlit\app.py"
      
