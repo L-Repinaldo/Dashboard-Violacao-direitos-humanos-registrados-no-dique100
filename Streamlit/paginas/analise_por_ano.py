@@ -163,7 +163,7 @@ def mostrar():
     # =========================
     st.subheader("Comparativo gênero das vítimas")
     df_genero = frequencias['Gênero_da_vítima']
-    df_genero = df_genero.sort_values(by="count", ascending=False)
+    df_genero = df_genero
     grafico_barra(
         df=df_genero,
         x="Aparições",
@@ -198,7 +198,7 @@ def mostrar():
 
     st.subheader("Relação Vítima x Suspeito")
     df_relacao_vitima_x_suspeito = frequencias["Relação_vítima_suspeito"]
-    df_relacao_vitima_x_suspeito_top5 = df_relacao_vitima_x_suspeito.sort_values(by="count", ascending=False).head(5)
+    df_relacao_vitima_x_suspeito_top5 = df_relacao_vitima_x_suspeito.nlargest(5, "count")
     grafico_pizza(df = df_relacao_vitima_x_suspeito_top5, titulo="Distribuição Relação Vítima x Suspeito - Top5", df_total = df_relacao_vitima_x_suspeito)
 
     st.markdown("---")
@@ -214,7 +214,7 @@ def mostrar():
     if not df_idade_vitima.empty:
         total_de_classes = df_idade_vitima['count'].sum()
         df_idade_vitima['Frequência Relativa (%)'] = (df_idade_vitima['count'] / total_de_classes) * 100
-        df_top5_idades_vit = df_idade_vitima.sort_values(by="count", ascending=False).head(5)
+        df_top5_idades_vit = df_idade_vitima.nlargest(5, "count")
         st.table(df_top5_idades_vit)
     else:
         st.info("Sem dados para faixa etária vítimas.")
@@ -229,7 +229,7 @@ def mostrar():
     if not df_idade_suspeito.empty:
         total_de_classes = df_idade_suspeito['count'].sum()
         df_idade_suspeito['Frequência Relativa (%)'] = (df_idade_suspeito['count'] / total_de_classes) * 100
-        df_top5_idades_susp = df_idade_suspeito.sort_values(by="count", ascending=False).head(5)
+        df_top5_idades_susp = df_idade_suspeito.nlargest(5, "count")
         st.table(df_top5_idades_susp)
     else:
         st.info("Sem dados para faixa etária vítimas.")
@@ -241,7 +241,7 @@ def mostrar():
     # =========================
     st.subheader("Distribuição dos Tipos de Violações")
     df_violacoes = frequencias['violacao']
-    df_violacoes_top5 = df_violacoes.sort_values(by="count", ascending=False).head(5)
+    df_violacoes_top5 = df_violacoes.nlargest(5, "count")
     grafico_barra(
         df = df_violacoes_top5,
         x = 'Aparições',
@@ -281,7 +281,7 @@ def mostrar():
     if not df_motivacao.empty:
         total_motivacao = df_motivacao['count'].sum()
         df_motivacao['Frequência Relativa (%)'] = (df_motivacao['count'] / total_motivacao) * 100
-        df_top5_motivacoes = df_motivacao.sort_values(by="count", ascending=False).head(5)
+        df_top5_motivacoes = df_motivacao.nlargest(5, "count")
         st.table(df_top5_motivacoes)
     else:
         st.info("Sem dados para motivações.")

@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 def contar_ocorrencias_por_coluna(df_primeiro, df_segundo, coluna):
     """
@@ -13,16 +14,16 @@ def contar_ocorrencias_por_coluna(df_primeiro, df_segundo, coluna):
     Retorna:
         pd.DataFrame: DataFrame com a contagem consolidada, ordenado em ordem decrescente.
     """
-    
+
     df_total = pd.concat([df_primeiro, df_segundo], ignore_index=True)
 
-    df_contagem = (
-        df_total[coluna]
-        .value_counts()
-        .reset_index()
-        .rename(columns={"index": coluna, coluna: "Aparições"})
-    )
+    col_array = df_total[coluna].dropna().to_numpy()
 
-    df_contagem = df_contagem.sort_values(by="Aparições", ascending=False).reset_index(drop=True)
+    valores, contagens = np.unique(col_array, return_counts=True)
+
+    df_contagem = pd.DataFrame({
+        "Aparições": valores,
+        "count": contagens
+    }).sort_values(by="Aparições", ascending=False, ignore_index=True)
 
     return df_contagem
