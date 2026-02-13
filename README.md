@@ -1,16 +1,13 @@
 # Dashboard-denuncias-direitos-humanos-registrados no-disque100
 
 
-Este repositório contém a aplicação em Streamlit desenvolvida para apoiar o artigo científico:
-“Dashboards e Inteligência Artificial na Proteção de Grupos Vulneráveis: Análise de Dados do Disque 100”.
-
-  O objetivo é disponibilizar painéis interativos que permitem explorar os dados de denúncias registradas no Disque 100, com foco em grupos vulneráveis.
-
-Embora o artigo tenha como ênfase principal o grupo dos idosos, a aplicação vai além e possibilita análises para diversos grupos, nos anos de 2020 a 2024.
+Este repositório contém a aplicação em Streamlit desenvolvida para uma análise experimental de denúncias registradas no Disque 100 (2020 - 2024), com foco em grupos vulneráveis.
 
 ## Funcionalidades
 
 - Dashboard anual e histórico com dados de denúncias.
+  
+- Exploração assistida com IA (Gemini)
 
 - Visualização de categorias de violência por grupo vulnerável.
 
@@ -44,13 +41,6 @@ Para acessar os dados originais, visite: [dados.gov.br](https://dados.gov.br/dad
 ## Execução Local
 
      streamlit run "Streamlit\app.py"
-
-
-## Referência do Artigo 
-
-> *( Em processo de revisão institucional, será adicionada assim que publicado.)*
-
-
      
 ##  Demonstração
 
