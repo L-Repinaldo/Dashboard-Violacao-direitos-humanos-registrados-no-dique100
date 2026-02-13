@@ -8,7 +8,7 @@ O objetivo da aplicação é facilitar a visualização, comparação e explora�
 
 - Dashboard anual e histórico com dados de denúncias
   
-- Exploração assistida com IA (Gemini) para geração de insigths, com base na interpretação dos dados apresentados no dashboard
+- Exploração assistida com IA (Gemini) para geração de insights, com base na interpretação dos dados apresentados no dashboard
 
 - Visualização de categorias de violência por grupo vulnerável
 
