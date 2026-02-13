@@ -2,16 +2,17 @@
 
 
 Este repositório contém a aplicação em Streamlit desenvolvida para uma análise experimental de denúncias registradas no Disque 100 (2020 - 2024), com foco em grupos vulneráveis.
+O objetivo da aplicação é facilitar a visualização, comparação e exploração interativa de padrões de denúncias a partir de dados públicos tratados.
 
 ## Funcionalidades
 
-- Dashboard anual e histórico com dados de denúncias.
+- Dashboard anual e histórico com dados de denúncias
   
-- Exploração assistida com IA (Gemini)
+- Exploração assistida com IA (Gemini) para geração de insigths, com base na interpretação dos dados apresentados no dashboard
 
-- Visualização de categorias de violência por grupo vulnerável.
+- Visualização de categorias de violência por grupo vulnerável
 
-- Foco em exploração interativa dos dados, facilitando análises e comparações.
+- Exploração interativa dos dados para análise e comparação
 
 ## Estrutura dos Dados
 
@@ -22,23 +23,24 @@ Este repositório contém a aplicação em Streamlit desenvolvida para uma anál
 - Organização: dados separados por grupo vulnerável em múltiplos CSVs.
 
 - Obs: Os dados disponibilizados foram tratados e normalizados para atender ao foco desta pesquisa.
-Para acessar os dados originais, visite: [dados.gov.br](https://dados.gov.br/dados/conjuntos-dados/ouvidoria-nacional-de-direitos-humanos--ondh) . 
+Para acesso aos dados originais, visite: [dados.gov.br](https://dados.gov.br/dados/conjuntos-dados/ouvidoria-nacional-de-direitos-humanos--ondh) . 
 
 ## Execução Local
 
-- dask==2025.2.0
-- google-generativeai==0.8.4
-- pandas==2.2.3
-- plotly==5.24.1
-- streamlit==1.47.1
+### Dependências
+  - dask==2025.2.0
+  - google-generativeai==0.8.4
+  - pandas==2.2.3
+  - plotly==5.24.1
+  - streamlit==1.47.1
 
-## Instalação 
+### Instalação 
 
      git clone https://github.com/seu-usuario/Dashboard-denuncias-direitos-humanos-disque100.git
      cd Dashboard-denuncias-direitos-humanos-disque100
      pip install -r requirements.txt
      
-## Execução Local
+### Execução Local
 
      streamlit run "Streamlit\app.py"
      
